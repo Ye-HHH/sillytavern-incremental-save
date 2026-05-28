@@ -1,0 +1,11 @@
+{
+  "name": "Incremental Save",
+  "version": "1.0.0",
+  "description": "Incremental save + gzip fallback for SillyTavern. Saves only new chat messages instead of the entire file. Falls back to gzip compression when old messages are modified.",
+  "author": "Adapted from ransxd/sillytavern-incremental-save",
+  "license": "MIT",
+  "serverPlugin": "server/incremental-save-server.js",
+  "frontend": {
+    "script": "client/index.js"
+  }
+}
