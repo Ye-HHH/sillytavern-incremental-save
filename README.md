@@ -29,33 +29,60 @@
 
 ## 安装
 
-**云酒馆和本地方式不同，但安装命令统一。**
+> 先看你是哪种情况，跟着对应的步骤走就行。
 
-### 🐳 云酒馆 / Docker（服务器部署，如 Google Cloud）
+---
+
+### 情况 A：我在用云酒馆（Docker 部署，如 Google Cloud 服务器）
+
+**第 1 步**：SSH 连上你的服务器。
+
+**第 2 步**：依次输入以下命令（一行一行来）：
 
 ```bash
 git clone https://github.com/Ye-HHH/sillytavern-incremental-save.git
+```
+
+```bash
 cd sillytavern-incremental-save
+```
+
+```bash
 ./install.sh --docker /opt/sillytavern
 ```
 
-脚本做了什么：
-1. 复制 patched 文件到 `patched/` 目录
-2. 在 `docker-compose.yml` 中写入 bind mount
-3. 备份原 docker-compose.yml
-4. 重建容器
+> 如果酒馆装在别的路径，把 `/opt/sillytavern` 换成你的路径。
 
-由于使用 **bind mount 持久化**，此后容器重建不会丢失。
+**第 3 步**：等脚本跑完，出现 `Done!` 就装好了。刷新酒馆页面，按 F12 → Console，看有没有 `[Save-Size]` 开头的日志。
 
-### 🖥 本地酒馆（直接跑在电脑上）
+**以后会丢吗？** 不会。脚本已经帮你做了持久化，容器重启、重建都不会消失。
+
+---
+
+### 情况 B：我在用本地酒馆（电脑上直接跑的）
+
+**第 1 步**：打开终端（Windows 用 Git Bash 或 PowerShell，Mac 用终端）。
+
+**第 2 步**：进入下载的仓库目录，运行：
 
 ```bash
-./install.sh --local /path/to/SillyTavern
+./install.sh --local "你的酒馆文件夹路径"
 ```
 
-直接替换源文件，重启酒馆即可。
+例子：
+```bash
+./install.sh --local ~/SillyTavern
+# 或
+./install.sh --local "D:/SillyTavern"
+```
 
-> ⚠️ 注意：Docker 用户不应用 `docker cp` 手动改文件，容器重建就消失。`install.sh --docker` 已用 bind mount 解决此问题。
+**第 3 步**：重启酒馆（关掉重开），完成。
+
+---
+
+### 我还是装不上？
+
+打开 [Issues](https://github.com/Ye-HHH/sillytavern-incremental-save/issues) 描述你的情况，带上错误截图。
 
 ## CompressedSave（可选，推荐）
 
