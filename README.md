@@ -19,6 +19,14 @@
 行数校验失败 → 自动回退全量保存（防数据损坏）
 ```
 
+## 2026-07-19 更新：修复 hash 盲区丢数据
+
+`computeChatHash` 的 hash 算法从**消息文本长度 + swipe_id** 改为 **JSON.stringify(整条消息)**。
+
+**旧版问题**：hash 只看 `mes.length` 和 `swipe_id`，消息的 `extra` 字段（向量数据、reasoning、token_count、media 等）不在 hash 范围内。这意味着编辑旧消息后若文本长度不变、swipe_id 不变，增量保存会误判"无变更"而跳过更新，导致 `extra` 下的数据丢失。
+
+**修复**：改为 `JSON.stringify(m)` 对整个消息对象序列化后计算 hash，任何字段变动都会被检测到并触发正确的保存路径。
+
 ## 安装
 
 ### Docker

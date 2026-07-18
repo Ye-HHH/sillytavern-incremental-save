@@ -48,7 +48,7 @@
         let h = '';
         for (let i = 1; i < upToIndex && i < chatArray.length; i++) {
             const m = chatArray[i];
-            h += `${(m.mes || '').length}:${m.swipe_id ?? 0},`;
+            h += `${JSON.stringify(m)},`;
         }
         return h;
     }

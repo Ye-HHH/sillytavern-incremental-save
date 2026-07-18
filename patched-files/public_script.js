@@ -445,7 +445,7 @@ function computeChatHash(chatArray, upToIndex) {
     let hash = '';
     for (let i = 1; i < upToIndex && i < chatArray.length; i++) {
         const m = chatArray[i];
-        hash += `${(m.mes || '').length}:${m.swipe_id ?? 0},`;
+        hash += `${JSON.stringify(m)},`;
     }
     return hash;
 }
