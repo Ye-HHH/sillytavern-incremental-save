@@ -29,11 +29,23 @@
 
 ## 安装
 
+**一键搞定，永久生效。**
+
 ### Docker
 
 ```bash
-./install.sh --docker sillytavern
+git clone https://github.com/Ye-HHH/sillytavern-incremental-save.git
+cd sillytavern-incremental-save
+./install.sh --docker /opt/sillytavern
 ```
+
+脚本自动完成：
+1. 复制 patched 文件到 `./patched/` 目录
+2. 添加 bind 挂载到 `docker-compose.yml`
+3. 备份原 docker-compose.yml
+4. 重建容器
+
+此后 `docker compose down && docker compose up -d` 也不会丢失。
 
 ### 本地
 
