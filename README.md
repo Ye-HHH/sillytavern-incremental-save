@@ -29,9 +29,9 @@
 
 ## 安装
 
-**一键搞定，永久生效。**
+**云酒馆和本地方式不同，但安装命令统一。**
 
-### Docker
+### 🐳 云酒馆 / Docker（服务器部署，如 Google Cloud）
 
 ```bash
 git clone https://github.com/Ye-HHH/sillytavern-incremental-save.git
@@ -39,19 +39,23 @@ cd sillytavern-incremental-save
 ./install.sh --docker /opt/sillytavern
 ```
 
-脚本自动完成：
-1. 复制 patched 文件到 `./patched/` 目录
-2. 添加 bind 挂载到 `docker-compose.yml`
+脚本做了什么：
+1. 复制 patched 文件到 `patched/` 目录
+2. 在 `docker-compose.yml` 中写入 bind mount
 3. 备份原 docker-compose.yml
 4. 重建容器
 
-此后 `docker compose down && docker compose up -d` 也不会丢失。
+由于使用 **bind mount 持久化**，此后容器重建不会丢失。
 
-### 本地
+### 🖥 本地酒馆（直接跑在电脑上）
 
 ```bash
 ./install.sh --local /path/to/SillyTavern
 ```
+
+直接替换源文件，重启酒馆即可。
+
+> ⚠️ 注意：Docker 用户不应用 `docker cp` 手动改文件，容器重建就消失。`install.sh --docker` 已用 bind mount 解决此问题。
 
 ## CompressedSave（可选，推荐）
 
@@ -76,10 +80,18 @@ https://github.com/IfTimeee/SillyTavern-CompressedSave.git
 
 ## 恢复原始
 
-Docker重建容器即可恢复：
+### Docker
+
 ```bash
-cd /opt/sillytavern && docker compose down && docker compose up -d
+# 恢复 docker-compose.yml 备份
+cd /opt/sillytavern
+cp docker-compose.yml.bak.* docker-compose.yml
+docker compose down && docker compose up -d
 ```
+
+### 本地
+
+重装酒馆或从 `backups/` 目录恢复原始文件。
 
 ## 内存建议
 
